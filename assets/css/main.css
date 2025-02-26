@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+
+@theme {
+    --text: #222;
+    --title: #222;
+    --bg: white;
+    --code-bg: #232936;
+    --link: #ab4699;
+    --inlineCode-bg: rgba(255, 229, 100, 0.2);
+    --inlineCode-text: #1a1a1a;
+    --pink: lab(63 59.32 -1.47);
+    --purple: lab(33 42.09 -43.19);
+    --font-title: 'Montserrat Alternates', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #e5e5e6;
+        --title: white;
+        --bg: #282c35;
+        --code-bg: #191d27;
+        --link: #e0b5f4;
+        --inlineCode-bg: rgba(115, 124, 153, 0.2);
+        --inlineCode-text: #e6e6e6;
+        --pink: lab(81 32.36 -7.02);
+        --purple: lab(78 19.97 -36.75);
+    }
+}
