@@ -1,7 +1,6 @@
 <script setup>
-const region = '113/'
 const langs = 'Angular+Vue+React+php+python'
-const urlLine = ref('/api/getLangReg/' + region + langs)
+const urlLine = ref(langs)
 </script>
 
 <template>

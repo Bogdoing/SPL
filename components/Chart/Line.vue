@@ -4,7 +4,7 @@ const props = defineProps({
     mode: String
 })
 // Запрос данных с сервера
-const getChartData = await useFetch(props.urlData)
+const getChartData = await useFetch('/api/getLangReg/' + '113/' + props.urlData)
 const chartData = getChartData.data
 
 // Преобразование данных
@@ -42,6 +42,6 @@ const data = {
 
 <template>
     <ClientOnly>
-        <ChartTestDataChart :data="data" :mode="props.mode"/>
+        <ChartLinesChart :data="data" :mode="props.mode"/>
     </ClientOnly>
 </template>
