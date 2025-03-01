@@ -3,7 +3,9 @@
     <div 
       class="py-12 px-5 mx-auto max-w-2xl mx-auto">
       <AppHeader/>
-      <NuxtPage/>
+      <UApp>
+        <NuxtPage />
+      </UApp>
     </div>
   </main>
   <footer class="bg-(--bg) text-(--text)" style="font-family: var(--font-title);">

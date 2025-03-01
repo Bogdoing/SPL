@@ -15,14 +15,18 @@ export default defineNuxtConfig({
     '~/plugins/chartjs.ts',
   ],
 
-  modules: [['@nuxtjs/google-fonts',
+  modules: [
+    ['@nuxtjs/google-fonts',
       {
-      families: {
-        'Montserrat+Alternates': [400, 500, 600, 700, 800, 900],
-      },
-      display: 'swap', 
-      googleFonts: {
-        text: 'СЯП.ру'
+        families: {
+          'Montserrat+Alternates': [400, 500, 600, 700, 800, 900],
+        },
+        display: 'swap', 
+        googleFonts: {
+          text: 'СЯП.ру'
+        }
       }
-    }]],
+    ],
+    '@nuxt/ui'
+  ],
 })

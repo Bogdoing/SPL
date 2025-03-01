@@ -4,9 +4,7 @@ const urlLine = ref(langs)
 </script>
 
 <template>
-    <span class="float-right bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-purple-900 dark:text-purple-300">
-        #CHARTS
-    </span>
+    <UBadge class="float-right bg-purple-100 dark:bg-purple-900 dark:text-purple-300 text-purple-800" variant="soft">#CHARTS</UBadge>
 
     <ChartLine mode="nearest" :urlData="urlLine"/>
 

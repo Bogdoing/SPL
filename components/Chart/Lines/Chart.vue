@@ -3,6 +3,8 @@
         <canvas ref="chartCanvas"></canvas>
         <p id="legend-container"></p>
     </div>
+
+    {{  }}
 </template>
 
 <script setup>
@@ -10,7 +12,6 @@ import { ref, onMounted } from 'vue';
 import { Chart, registerables } from 'chart.js';
 import { externalTooltipHandler } from '~/utils/getTooltip'
 import { htmlLegendPlugin } from '~/utils/getLegendGrid'
-// import { htmlLegendPlugin } from '~/utils/getLegend'
 
 Chart.register(...registerables);
 
@@ -22,13 +23,11 @@ const props = defineProps({
     mode: String
 })
 
-
 const config = {
     type: 'line',
     data: props.data,
     options: {
         interaction: {
-            // mode: 'nearest',
             mode: props.mode,
             intersect: true,
         },
@@ -52,6 +51,8 @@ const config = {
 onMounted(() => {
     chartInstance.value = new Chart(chartCanvas.value, config);
 });
+
+
 </script>
 
 <style scoped>
