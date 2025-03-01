@@ -10,7 +10,7 @@ const posts = ref(
         {
             title: 'Статистика вакансий и резюме из HHRU',
             date: 'Обновлено - Декабрь 11, 2023',
-            // description: 'Рынок 1С задыхается',
+            description: 'Рынок 1С задыхается',
             toLink: 'stats/hh'
         },
         {
@@ -21,7 +21,7 @@ const posts = ref(
         {
             title: 'Статистика ещё откуда нибудь',
             date: 'Обновлено - Февраль 23, 2021',
-            // description: 'бла бла бла'
+            description: 'бла бла бла'
         },
 ])
 </script>

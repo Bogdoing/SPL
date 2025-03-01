@@ -3,12 +3,10 @@
         <canvas ref="chartCanvas"></canvas>
         <p id="legend-container"></p>
     </div>
-
-    {{  }}
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { Chart, registerables } from 'chart.js';
 import { externalTooltipHandler } from '~/utils/getTooltip'
 import { htmlLegendPlugin } from '~/utils/getLegendGrid'
@@ -23,35 +21,44 @@ const props = defineProps({
     mode: String
 })
 
-const config = {
-    type: 'line',
-    data: props.data,
-    options: {
-        interaction: {
-            mode: props.mode,
-            intersect: true,
-        },
-        plugins: {
-            htmlLegend: {
-                containerID: 'legend-container',
+const config = computed(() => {
+    return {
+        type: 'line',
+        data: props.data,
+        options: {
+            interaction: {
+                mode: props.mode,
+                intersect: true,
             },
-            legend: {
-                display: false,
+            plugins: {
+                htmlLegend: {
+                    containerID: 'legend-container',
+                },
+                legend: {
+                    display: false,
+                },
+                tooltip: {
+                    enabled: false,
+                    position: 'nearest',
+                    external: externalTooltipHandler
+                }
             },
-            tooltip: {
-                enabled: false,
-                position: 'nearest',
-                external: externalTooltipHandler
-            }
         },
-    },
-    plugins: [htmlLegendPlugin],
-};
+        plugins: [htmlLegendPlugin],
+    }
+})
 
 onMounted(() => {
-    chartInstance.value = new Chart(chartCanvas.value, config);
+    chartInstance.value = new Chart(chartCanvas.value, config.value);
 });
 
+// Обновляем график при изменении данных
+watch(() => config, (newData) => {
+    if (chartInstance.value) {
+        chartInstance.value.destroy(); // Уничтожаем предыдущий экземпляр графика
+    }
+    chartInstance.value = new Chart(chartCanvas.value, newData.value); // Создаем новый экземпляр графика
+}, { deep: true });
 
 </script>
 
@@ -60,4 +67,3 @@ onMounted(() => {
     margin-top: 20px;
 }
 </style>
-

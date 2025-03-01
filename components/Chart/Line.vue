@@ -9,30 +9,41 @@ const regions = ref([
 ])
 const regionSelect = ref(regions.value[0][0])
 
-const { data: chartData } = await useFetch('/api/getLangReg/' + regionSelect.value + '/' + props.urlData);
+const { data: chartData } = await useFetch(() => `/api/getLangReg/${regionSelect.value}/${props.urlData}`);
 
-const labels = [...new Set(chartData.value.map(item => item.datePars))]; // Уникальные даты / Преобразование данных
-const languages = [...new Set(chartData.value.map(item => item.lang))]; // Уникальные языки / Группировка данных по языкам
-const datasets = [];
+// const labels = [...new Set(chartData.value.map(item => item.datePars))]; // Уникальные даты / Преобразование данных
+// const languages = [...new Set(chartData.value.map(item => item.lang))]; // Уникальные языки / Группировка данных по языкам
+const labels = computed(() => {
+    return [...new Set(chartData.value.map(item => item.datePars))] // Уникальные даты / Преобразование данных
+})
+const languages = computed(() => {
+    return [...new Set(chartData.value.map(item => item.lang))] // Уникальные языки / Группировка данных по языкам
+})
 
-languages.forEach(lang => {
-    const data = labels.map(date => {
-        const item = chartData.value.find(d => d.datePars === date && d.lang === lang);
-        return item ? item.vac : 0; // Если данных нет, возвращаем 0
+const datasets = computed(() => {
+    const dataset = []
+    languages.value.forEach(lang => {
+        const data = labels.value.map(date => {
+            const item = chartData.value.find(d => d.datePars === date && d.lang === lang);
+            return item ? item.vac : 0; // Если данных нет, возвращаем 0
+        });
+
+        dataset.push({
+            label: lang,
+            data: data,
+            borderColor: getRandomColor(), // Функция для генерации цвета
+            fill: false,
+        });
     });
+    return dataset
+})
 
-    datasets.push({
-        label: lang,
-        data: data,
-        borderColor: getRandomColor(), // Функция для генерации цвета
-        fill: false,
-    });
-});
-
-const data = {
-    labels: labels,
-    datasets: datasets,
-};
+const data = computed(() => { 
+    return {
+        labels: labels.value,
+        datasets: datasets.value      
+    }
+})
 
 // Функция для генерации случайного цвета
 function getRandomColor() {
@@ -41,6 +52,7 @@ function getRandomColor() {
     const b = Math.floor(Math.random() * 256);
     return `rgb(${r}, ${g}, ${b})`;
 }
+
 </script>
 
 <template>
@@ -48,4 +60,5 @@ function getRandomColor() {
         <USelectMenu v-model="regionSelect" :items="regions" class="w-40" />
         <ChartLinesChart :data="data" :mode="props.mode"/>
     </ClientOnly>
+    <!-- {{ data }} -->
 </template>
