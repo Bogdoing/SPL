@@ -7,6 +7,6 @@
     </div>
   </main>
   <footer class="bg-(--bg) text-(--text)" style="font-family: var(--font-title);">
-    <AppFooter />
+    <AppFooter class="mx-auto max-w-2xl mx-auto"/>
   </footer>
 </template>
