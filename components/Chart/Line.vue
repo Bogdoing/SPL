@@ -11,8 +11,6 @@ const regionSelect = ref(regions.value[0][0])
 
 const { data: chartData } = await useFetch(() => `/api/getLangReg/${regionSelect.value}/${props.urlData}`);
 
-// const labels = [...new Set(chartData.value.map(item => item.datePars))]; // Уникальные даты / Преобразование данных
-// const languages = [...new Set(chartData.value.map(item => item.lang))]; // Уникальные языки / Группировка данных по языкам
 const labels = computed(() => {
     return [...new Set(chartData.value.map(item => item.datePars))] // Уникальные даты / Преобразование данных
 })
@@ -52,7 +50,6 @@ function getRandomColor() {
     const b = Math.floor(Math.random() * 256);
     return `rgb(${r}, ${g}, ${b})`;
 }
-
 </script>
 
 <template>

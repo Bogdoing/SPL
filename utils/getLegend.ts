@@ -2,25 +2,26 @@
 export const htmlLegendPlugin = {
     id: 'htmlLegend',
     afterUpdate(chart: { options: { plugins: { legend: { labels: { generateLabels: (arg0: any) => any; }; }; }; }; config: { type: any; }; toggleDataVisibility: (arg0: any) => void; setDatasetVisibility: (arg0: any, arg1: boolean) => void; isDatasetVisible: (arg0: any) => any; update: () => void; }, args: any, options: { containerID: string; }) {
-        const ul = getOrCreateLegendList(chart, options.containerID);
-    
-        // Remove old legend items
-        while (ul.firstChild) {
-            ul.firstChild.remove();
+        const tableDiv = getOrCreateLegendTable(chart, options.containerID);
+
+        // Удаляем старые элементы таблицы
+        while (tableDiv.firstChild) {
+            tableDiv.firstChild.remove();
         }
 
         // Reuse the built-in legendItems generator
         const items = chart.options.plugins.legend.labels.generateLabels(chart);
-    
-        items.forEach((item: { index: any; datasetIndex: any; fillStyle: string; strokeStyle: string; lineWidth: string; fontColor: string; hidden: any; text: string; }) => {
-            const li = document.createElement('li');
-            li.style.alignItems = 'center';
-            li.style.cursor = 'pointer';
-            li.style.display = 'flex';
-            li.style.flexDirection = 'row';
-            li.style.marginLeft = '10px';
 
-            li.onclick = () => {
+        items.forEach((item: { index: any; datasetIndex: any; fillStyle: string; strokeStyle: string; lineWidth: string; fontColor: string; hidden: any; text: string; }) => {
+            const cellDiv = document.createElement('div');
+            cellDiv.className = 'cell';
+            cellDiv.style.cursor = 'pointer';
+            cellDiv.style.alignItems = 'center';
+            cellDiv.style.display = 'flex';
+            cellDiv.style.flexDirection = 'row';
+            cellDiv.style.marginLeft = '10px';
+
+            cellDiv.onclick = () => {
                 const { type } = chart.config;
                 if (type === 'pie' || type === 'doughnut') {
                     chart.toggleDataVisibility(item.index);
@@ -37,7 +38,7 @@ export const htmlLegendPlugin = {
             boxSpan.style.borderWidth = item.lineWidth + 'px';
             boxSpan.style.display = 'inline-block';
             boxSpan.style.flexShrink = '0';
-            boxSpan.style.height = '0';
+            boxSpan.style.height = '1px';
             boxSpan.style.marginRight = '10px';
             boxSpan.style.width = '20px';
 
@@ -48,29 +49,30 @@ export const htmlLegendPlugin = {
             textContainer.style.padding = '0';
             textContainer.style.textDecoration = item.hidden ? 'line-through' : '';
 
-            // const text = document.createTextNode(item.text.split(/[\s+]+/)[0]);
-            const text = document.createTextNode(item.text);
+            const text = document.createTextNode(item.text.split(/[\s+]+/)[0]);
             textContainer.appendChild(text);
 
-            li.appendChild(boxSpan);
-            li.appendChild(textContainer);
-            ul.appendChild(li);
+            cellDiv.appendChild(boxSpan);
+            cellDiv.appendChild(textContainer);
+
+            tableDiv.appendChild(cellDiv);
         });
     },
 };
 
-const getOrCreateLegendList = (chart: any, id: string) => {
+const getOrCreateLegendTable = (chart: any, id: string) => {
     const legendContainer = document.getElementById(id);
-    let listContainer = legendContainer.querySelector('ul');
+    let tableDiv = legendContainer.querySelector('.table');
 
-    if (!listContainer) {
-        listContainer = document.createElement('ul');
-        listContainer.style.display = 'flex';
-        listContainer.style.flexDirection = 'row';
-        listContainer.style.margin = '0';
-        listContainer.style.padding = '0';
-    
-        legendContainer.appendChild(listContainer);
+    if (!tableDiv) {
+        tableDiv = document.createElement('div');
+        tableDiv.className = 'table';
+        tableDiv.style.display = 'grid';
+        tableDiv.style["grid-template-columns"] = 'repeat(auto-fill, minmax(125px, 1fr))';
+        // tableDiv.style["grid-template-columns"] = 'repeat(auto-fill, minmax(150px, 1fr))';
+        tableDiv.style.gap = '10px';
+
+        legendContainer.appendChild(tableDiv);
     }
-    return listContainer;
+    return tableDiv;
 };

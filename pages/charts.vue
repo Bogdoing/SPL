@@ -1,5 +1,5 @@
 <script setup>
-const langs = 'Angular+Vue+React+php+python'
+const langs = 'Angular+Vue+React+php+python+Kotlin+Dart'
 const urlLine = ref(langs)
 </script>
 

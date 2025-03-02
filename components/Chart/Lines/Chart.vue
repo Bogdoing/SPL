@@ -9,7 +9,7 @@
 import { ref, onMounted, watch } from 'vue';
 import { Chart, registerables } from 'chart.js';
 import { externalTooltipHandler } from '~/utils/getTooltip'
-import { htmlLegendPlugin } from '~/utils/getLegendGrid'
+import { htmlLegendPlugin } from '~/utils/getLegend'
 
 Chart.register(...registerables);
 
