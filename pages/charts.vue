@@ -8,11 +8,4 @@ const urlLine = ref(langs)
 
     <ChartLine mode="nearest" :urlData="urlLine"/>
 
-
-
-    <!-- <ClientOnly>
-        <ChartTestGTP/>
-        <ChartTestCustomToltip/>
-        <ChartTestDataChart :data="data"/>
-    </ClientOnly> -->
 </template>

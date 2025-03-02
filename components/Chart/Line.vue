@@ -26,10 +26,12 @@ const datasets = computed(() => {
             return item ? item.vac : 0; // Если данных нет, возвращаем 0
         });
 
+        const color = getRandomColor()
         dataset.push({
             label: lang,
             data: data,
-            borderColor: getRandomColor(), // Функция для генерации цвета
+            borderColor: color, // Функция для генерации цвета
+            backgroundColor: color,
             fill: false,
         });
     });
