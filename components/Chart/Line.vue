@@ -1,15 +1,24 @@
 <script setup>
 const props = defineProps({
     urlData: String,
-    mode: String
+    modeChart: String
 })
-
-const regions = ref([
-    ['113', '1', '26']
+const modeDb = ref([
+    { label: 'Вакансии', id: 'vac' },
+    { label: 'Упоминания', id: 'vacRef' },
+    { label: 'Резюме', id: 'res' }
 ])
-const regionSelect = ref(regions.value[0][0])
+const modeDbSelect = ref(modeDb.value[0].id)
 
-const { data: chartData } = await useFetch(() => `/api/getLangReg/${regionSelect.value}/${props.urlData}`);
+// const regions = ref(['113', '1', '26'])
+const regions = ref([
+    { label: 'Вся Россия', id: '113' },
+    { label: 'Москва', id: '1' },
+    { label: 'Воронеж', id: '26' }
+])
+const regionSelect = ref('1')
+
+const { data: chartData } = await useFetch(() => `/api/getLangReg/${modeDbSelect.value}/${regionSelect.value}/${props.urlData}`);
 
 const labels = computed(() => {
     return [...new Set(chartData.value.map(item => item.datePars))] // Уникальные даты / Преобразование данных
@@ -23,7 +32,7 @@ const datasets = computed(() => {
     languages.value.forEach(lang => {
         const data = labels.value.map(date => {
             const item = chartData.value.find(d => d.datePars === date && d.lang === lang);
-            return item ? item.vac : 0; // Если данных нет, возвращаем 0
+            return item ? item[modeDbSelect.value] : 0; // Если данных нет, возвращаем 0
         });
 
         const color = getRandomColor()
@@ -56,8 +65,8 @@ function getRandomColor() {
 
 <template>
     <ClientOnly>
-        <USelectMenu v-model="regionSelect" :items="regions" class="w-40" />
-        <ChartLinesChart :data="data" :mode="props.mode"/>
+        <USelectMenu v-model="regionSelect" value-key="id" :items="regions"  class="w-40" />
+        <USelectMenu v-model="modeDbSelect" value-key="id" :items="modeDb" class="w-40" />
+        <ChartLinesChart :data="data" :mode="props.modeChart"/>
     </ClientOnly>
-    <!-- {{ data }} -->
 </template>

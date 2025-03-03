@@ -21,16 +21,16 @@ const chartInstance = ref(null);
 
 const props = defineProps({
     data: {},
-    modeChart: String
+    mode: String
 })
 
 const config = computed(() => {
     return {
-        type: 'line',
+        type: 'pie',
         data: props.data,
         options: {
             interaction: {
-                mode: props.modeChart,
+                mode: props.mode,
                 intersect: true,
             },
             plugins: {
