@@ -7,7 +7,7 @@ useSeoMeta({
     ogDescription: 'ogDescription',
 })
 
-const langs = ref([15, 16, 17])
+// const langs = ref([15, 16, 17])
 
 </script>
 
