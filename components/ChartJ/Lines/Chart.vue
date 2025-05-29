@@ -56,7 +56,7 @@ onMounted(() => {
 });
 
 // Обновляем график при изменении данных
-watch(() => config, (newData) => {
+watch(() => config, async (newData) => {
     if (chartInstance.value) {
         chartInstance.value.destroy(); // Уничтожаем предыдущий экземпляр графика
     }

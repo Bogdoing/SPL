@@ -16,6 +16,12 @@ const posts = ref(
             toLink: 'chart'
         },
         {
+            title: 'About',
+            date: 'Обновлено - Май 29, 2025',
+            description: 'about',
+            toLink: 'about'
+        },
+        {
             title: 'Статистика из GITHUB',
             date: 'Обновлено - Январь 19, 2024',
             description: 'Java вновь на первом месте',

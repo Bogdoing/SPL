@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import type { Ref } from 'vue'
 
 interface ChartItem {
@@ -139,28 +139,29 @@ watch([regionSelect, modeDbSelect], () => {
     }
 })
 
-
 </script>
 
 <template>
     <div>
+        <UBadge class="float-right bg-purple-100 dark:bg-purple-900 dark:text-purple-300 text-purple-800 my-3" variant="soft">#CHARTS</UBadge>
         <ClientOnly>
             <div v-if="loading">
                 Загрузка данных...
                 <UProgress animation="swing" size="lg" class="my-5"/>
             </div>
             <template v-else>
+                <!-- {{ urlData }} -->
                 <USelectMenu
                     v-model="regionSelect"
                     value-key="id"
                     :items="regions"
-                    class="w-40 mx-2"
+                    class="w-40 mr-5 my-2"
                 />
                 <USelectMenu
                     v-model="modeDbSelect"
                     value-key="id"
                     :items="modeDb"
-                    class="w-40 mx-2"
+                    class="w-40 mr-5 my-2"
                 />
                 <ChartJLinesChart
                     :data="chartData"
