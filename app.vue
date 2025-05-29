@@ -6,7 +6,6 @@
       <UApp>
         <NuxtPage />
       </UApp>
-      <!-- <NuxtPage /> -->
     </div>
   </main>
   <footer class="bg-(--bg) text-(--text)" style="font-family: var(--font-title);">
