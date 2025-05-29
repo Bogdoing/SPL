@@ -21,8 +21,6 @@ const props = defineProps({
     urlData: Array,
     modeChart: String
 })
-console.log(props.urlData)
-
 
 // Реактивные данные
 const hhData: Ref<HhData | null> = ref(null)
@@ -59,7 +57,9 @@ const loadData = async () => {
 }
 
 // Загружаем данные при монтировании
-onMounted(loadData)
+onMounted(async () => {
+    await loadData()
+})
 
 // Получаем уникальные даты
 const labels = computed(() => {
@@ -71,13 +71,11 @@ const labels = computed(() => {
 const languages = computed(() => {
     if (!hhData.value) return []
 
-    
-
     const langIds = [...new Set(
         hhData.value.hh
             .filter(item =>
-                item.reg_id === Number(regionSelect.value) && 
-                (!props.urlData || props.urlData.length === 0 || props.urlData.includes(item.l_id))           
+                item.reg_id === Number(regionSelect.value)
+                && (!props.urlData || props.urlData.length === 0 || props.urlData.includes(item.l_id))           
             )
             .map(item => item.l_id)
     )]
@@ -106,7 +104,6 @@ const chartData = computed(() => {
                     return item.r !== 0 ? Number((item.r / item.v).toFixed(2)) : 0
                 }
             }
-
 
             return item ? item[modeDbSelect.value as keyof ChartItem] as number : 0
         })
@@ -141,6 +138,8 @@ watch([regionSelect, modeDbSelect], () => {
         console.log('Данные обновлены')
     }
 })
+
+
 </script>
 
 <template>
@@ -155,18 +154,20 @@ watch([regionSelect, modeDbSelect], () => {
                     v-model="regionSelect"
                     value-key="id"
                     :items="regions"
-                    class="w-40"
+                    class="w-40 mx-2"
                 />
                 <USelectMenu
                     v-model="modeDbSelect"
                     value-key="id"
                     :items="modeDb"
-                    class="w-40"
+                    class="w-40 mx-2"
                 />
-                <ChartLinesChart
+                <ChartJLinesChart
                     :data="chartData"
                     :mode="modeChart"
                 />
+                <div v-if="modeDbSelect == 'ratio'" class="my-5">Чем меньше, тем лучше</div>
+                <div v-else></div>
             </template>
         </ClientOnly>
     </div>

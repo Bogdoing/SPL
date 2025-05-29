@@ -1,6 +1,20 @@
 <script setup>
+
+useSeoMeta({
+    title: 'СЯП.ру',
+    ogTitle: 'СЯП.ру',
+    description: 'description',
+    ogDescription: 'ogDescription',
+})
+
 const posts = ref(
     [
+        {
+            title: 'Графики',
+            date: 'Обновлено - Май 29, 2025',
+            description: 'json',
+            toLink: 'chart'
+        },
         {
             title: 'Статистика из GITHUB',
             date: 'Обновлено - Январь 19, 2024',
@@ -20,8 +34,7 @@ const posts = ref(
         },
         {
             title: 'Статистика ещё откуда нибудь',
-            date: 'Обновлено - Февраль 23, 2021',
-            description: 'бла бла бла'
+            description: 'бла бла бла',
         },
 ])
 </script>
