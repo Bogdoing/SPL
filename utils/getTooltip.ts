@@ -74,8 +74,13 @@ export const externalTooltipHandler = (context: { chart: any; tooltip: any; }) =
             const td = document.createElement('td');
             td.style.borderWidth = '0';
 
-            // const text = document.createTextNode(body);
-            const text = document.createTextNode(`${body[0].split(/[\s+:]+/)[0]} : ${body[0].split(' ').pop()}`);
+
+            let text;
+            const { type } = chart.config;
+            if (type === 'pie' || type === 'doughnut')
+                text = document.createTextNode(`${body[0].split(/[\s+:]+/)[0]}${body[0].split(' ').pop()}`);            
+            else
+                text = document.createTextNode(`${body[0].split(/[\s+:]+/)[0]} : ${body[0].split(' ').pop()}`);
 
             td.appendChild(span);
             td.appendChild(text);

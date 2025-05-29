@@ -1,8 +1,31 @@
-<script setup>
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import type { Ref } from 'vue'
+
+interface ChartItem {
+    l_id: number
+    reg_id: number
+    v: number
+    vr: number
+    r: number
+    d: string
+}
+
+interface HhData {
+    languages: Record<string, string>
+    regionsHH: Record<string, string>
+    hh: ChartItem[]
+}
+
 const props = defineProps({
     urlData: String,
     modeChart: String
 })
+
+// Реактивные данные
+const hhData: Ref<HhData | null> = ref(null)
+const loading = ref(false)
+
 const modeDb = ref([
     { label: 'Вакансии', id: 'vac' },
     { label: 'Упоминания', id: 'vacRef' },
@@ -17,10 +40,26 @@ const regions = ref([
 ])
 const regionSelect = ref(regions.value[0].id)
 
-const { data: chartData } = await useFetch(() => `/api/getSumLang/${modeDbSelect.value}/${regionSelect.value}/${props.urlData}`);
+// Загрузка данных
+const loadData = async () => {
+    try {
+        loading.value = true
+        const response = await fetch('/dataSPL.json')
+        hhData.value = await response.json()
+    } catch (error) {
+        console.error('Ошибка загрузки:', error)
+    } finally {
+        loading.value = false
+    }
+}
+
+// Загружаем данные при монтировании
+onMounted(loadData)
+
 
 const labels = computed(() => {
-    return [...new Set(chartData.value.map(item => item.lang))] // Уникальные даты / Преобразование данных
+    if (!hhData.value) return []
+    return [...new Set(hhData.value.hh.map(item => item.d))] // Уникальные даты / Преобразование данных
 })
 
 const datasets = computed(() => {
@@ -29,7 +68,7 @@ const datasets = computed(() => {
     const datasetData = [] 
     const datasetColor = [] 
     labels.value.forEach(lang => {
-        const item = chartData.value.find(d => d.lang === lang);
+        const item = hhData.value.hh.find(d => d.lang === lang);
         datasetData.push(item[`SUM(hh.${(modeDbSelect.value)})`])
         datasetLang.push(lang)
         datasetColor.push(getRandomColor())
