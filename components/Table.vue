@@ -1,20 +1,6 @@
 <script lang="ts" setup>
 import type { TableColumn } from '@nuxt/ui'
 
-useSeoMeta({
-    title: 'Статистика языков по вакансиям HH',
-    ogTitle: 'Статистика языков по вакансиям HH',
-    description: 'Статистика языков программирования по вакансиям.',
-    ogDescription: 'Статистика языков программирования по вакансиям.',
-})
-
-const langs = ref([])
-
-const handleLangsUpdate = (newLangs:any) => {
-    langs.value = newLangs.map((lang: string) => Number(getIdObj(lang)));
-}
-
-
 type Table = {
     name: string    // название языка
     m_share: number // % рынка
@@ -78,12 +64,5 @@ const columns: TableColumn<Table>[] = [
 </script>
 
 <template>
-    <h1 class="text-[40px] font-black leading-[44px]">Статистика языков по вакансиям HH</h1>
-    <p class="mt-2 mb-10 text-[13px] text-gray-700 dark:text-gray-300">Май 29, 2025</p>
-
-    <Collapsible @update:selected-langs="handleLangsUpdate"/>
-
-    <ChartJLine modeChart="nearest" :urlData="langs" />
-
-    <Table/>
+    <UTable :data="data" :columns="columns" class="flex-1" />
 </template>
