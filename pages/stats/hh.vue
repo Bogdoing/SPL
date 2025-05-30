@@ -51,6 +51,7 @@ const handleLangsUpdate = (newLangs) => {
                 :urlData="langs"
                 :hhData="hhData"
             />
+            <Table :urlData="langs" :hhData="hhData"/>
         </template>
     </ClientOnly>
 

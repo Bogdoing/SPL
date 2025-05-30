@@ -48,7 +48,7 @@ const value = ref<CheckboxGroupValue[]>([
     "nodejs"
 ])
 
-// Создаем реактивную ссылку с дебаунсом
+// реактивная ссылка с дебаунсом
 const debouncedValue = useDebounce(value, 1000)
 
 watch(debouncedValue, (newValue) => {

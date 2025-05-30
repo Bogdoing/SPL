@@ -1,26 +1,12 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
 import type { Ref } from 'vue'
-
-interface ChartItem {
-    l_id: number
-    reg_id: number
-    v: number
-    vr: number
-    r: number
-    d: string
-}
-
-interface HhData {
-    languages: Record<string, string>
-    regionsHH: Record<string, string>
-    hh: ChartItem[]
-}
+import type { ChartItem, HhData } from '@/type/IdataJson'
 
 const props = defineProps({
     urlData: Array as () => number[], // фильтр по языкам
     modeChart: String,
-    hhData: Object as () => HhData | null // <-- НОВЫЙ PROP
+    hhData: Object as () => HhData | null 
 })
 
 // Настройки графика
@@ -112,11 +98,21 @@ const getRandomColor = () => {
 }
 
 // Реакция на изменение параметров
-watch([regionSelect, modeDbSelect], () => {
+// watch([regionSelect, modeDbSelect], () => {
+//     if (props.hhData) {
+//         console.log('Данные обновлены')
+//     }
+// })
+
+// реактивная ссылка с дебаунсом
+const debouncedValueRegion = useDebounce(regionSelect, 5000)
+const debouncedValueMode = useDebounce(modeDbSelect, 5000)
+// Реакция на изменение параметров
+watch([debouncedValueRegion, debouncedValueMode], (newValue) => {
     if (props.hhData) {
         console.log('Данные обновлены')
     }
-})
+}, { immediate: true })
 
 </script>
 
@@ -127,13 +123,13 @@ watch([regionSelect, modeDbSelect], () => {
             v-model="regionSelect"
             value-key="id"
             :items="regions"
-            class="w-40 mr-5 my-2"
+            class="w-40 mr-5 my-2 bg-(--bg)"
         />
         <USelectMenu
             v-model="modeDbSelect"
             value-key="id"
             :items="modeDb"
-            class="w-40 mr-5 my-2"
+            class="w-40 mr-5 my-2 bg-(--bg)"
         />
         <ChartJLinesChart
             :data="chartData"
