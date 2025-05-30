@@ -18,13 +18,10 @@ interface HhData {
 }
 
 const props = defineProps({
-    urlData: Array,
-    modeChart: String
+    urlData: Array as () => number[], // фильтр по языкам
+    modeChart: String,
+    hhData: Object as () => HhData | null // <-- НОВЫЙ PROP
 })
-
-// Реактивные данные
-const hhData: Ref<HhData | null> = ref(null)
-const loading = ref(false)
 
 // Настройки графика
 const modeDb = ref([
@@ -43,36 +40,18 @@ const regions = ref([
 ])
 const regionSelect = ref(regions.value[0].id)
 
-// Загрузка данных
-const loadData = async () => {
-    try {
-        loading.value = true
-        const response = await fetch('/dataSPL.json')
-        hhData.value = await response.json()
-    } catch (error) {
-        console.error('Ошибка загрузки:', error)
-    } finally {
-        loading.value = false
-    }
-}
-
-// Загружаем данные при монтировании
-onMounted(async () => {
-    await loadData()
-})
-
 // Получаем уникальные даты
 const labels = computed(() => {
-    if (!hhData.value) return []
-    return [...new Set(hhData.value.hh.map(item => item.d))].sort()
+    if (!props.hhData) return []
+    return [...new Set(props.hhData.hh.map(item => item.d))].sort()
 })
 
 // Получаем уникальные языки для выбранного региона
 const languages = computed(() => {
-    if (!hhData.value) return []
+    if (!props.hhData) return []
 
     const langIds = [...new Set(
-        hhData.value.hh
+        props.hhData.hh
             .filter(item =>
                 item.reg_id === Number(regionSelect.value)
                 && (!props.urlData || props.urlData.length === 0 || props.urlData.includes(item.l_id))           
@@ -82,17 +61,17 @@ const languages = computed(() => {
 
     return langIds.map(id => ({
         id,
-        name: hhData.value!.languages[id.toString()] || `Unknown (${id})`
+        name: props.hhData!.languages[id.toString()] || `Unknown (${id})`
     }))
 })
 
 // Подготовка данных для графика
 const chartData = computed(() => {
-    if (!hhData.value) return { labels: [], datasets: [] }
+    if (!props.hhData) return { labels: [], datasets: [] }
 
     const datasets = languages.value.map(lang => {
         const data = labels.value.map(date => {
-            const item = hhData.value!.hh.find(d =>
+            const item = props.hhData!.hh.find(d =>
                 d.d === date &&
                 d.l_id === lang.id &&
                 d.reg_id === Number(regionSelect.value)
@@ -134,7 +113,7 @@ const getRandomColor = () => {
 
 // Реакция на изменение параметров
 watch([regionSelect, modeDbSelect], () => {
-    if (hhData.value) {
+    if (props.hhData) {
         console.log('Данные обновлены')
     }
 })
@@ -144,32 +123,23 @@ watch([regionSelect, modeDbSelect], () => {
 <template>
     <div>
         <UBadge class="float-right bg-purple-100 dark:bg-purple-900 dark:text-purple-300 text-purple-800 my-3" variant="soft">#CHARTS</UBadge>
-        <ClientOnly>
-            <div v-if="loading">
-                Загрузка данных...
-                <UProgress animation="swing" size="lg" class="my-5"/>
-            </div>
-            <template v-else>
-                <!-- {{ urlData }} -->
-                <USelectMenu
-                    v-model="regionSelect"
-                    value-key="id"
-                    :items="regions"
-                    class="w-40 mr-5 my-2"
-                />
-                <USelectMenu
-                    v-model="modeDbSelect"
-                    value-key="id"
-                    :items="modeDb"
-                    class="w-40 mr-5 my-2"
-                />
-                <ChartJLinesChart
-                    :data="chartData"
-                    :mode="modeChart"
-                />
-                <div v-if="modeDbSelect == 'ratio'" class="my-5">Чем меньше, тем лучше</div>
-                <div v-else></div>
-            </template>
-        </ClientOnly>
+        <USelectMenu
+            v-model="regionSelect"
+            value-key="id"
+            :items="regions"
+            class="w-40 mr-5 my-2"
+        />
+        <USelectMenu
+            v-model="modeDbSelect"
+            value-key="id"
+            :items="modeDb"
+            class="w-40 mr-5 my-2"
+        />
+        <ChartJLinesChart
+            :data="chartData"
+            :mode="modeChart"
+        />
+        <div v-if="modeDbSelect == 'ratio'" class="my-5">Чем меньше, тем лучше</div>
+        <div v-else></div>
     </div>
 </template>

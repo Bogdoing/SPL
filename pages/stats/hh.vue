@@ -1,80 +1,37 @@
-<script lang="ts" setup>
-import type { TableColumn } from '@nuxt/ui'
+<script setup>
+import { ref } from 'vue'
 
 useSeoMeta({
     title: 'Статистика языков по вакансиям HH',
     ogTitle: 'Статистика языков по вакансиям HH',
-    description: 'Статистика языков программирования по вакансиям.',
-    ogDescription: 'Статистика языков программирования по вакансиям.',
+    description: 'description',
+    ogDescription: 'ogDescription',
 })
 
 const langs = ref([])
+const hhData = ref(null)
+const loading = ref(false)
 
-const handleLangsUpdate = (newLangs:any) => {
-    langs.value = newLangs.map((lang: string) => Number(getIdObj(lang)));
-}
-
-
-type Table = {
-    name: string    // название языка
-    m_share: number // % рынка
-    passing: number // изменения в сравнении с прошлым месяцем %
-    vac: number     // кол-во вакансий
-    rez: number     // кол-во резюме
-    varRef: number  // отношение век/реф
-    index: number   // индех востребованности
-}
-const data = ref<Table[]>([
-    {
-        name:    'php',
-        m_share: 5,
-        passing: -1.5,
-        vac:     1234,
-        rez:     594,
-        varRef:  3,
-        index:   0
-    },
-    {
-        name:    'php',
-        m_share: 5,
-        passing: -1.5,
-        vac:     1234,
-        rez:     594,
-        varRef:  3,
-        index:   0
+// Функция загрузки данных
+const loadData = async () => {
+    loading.value = true
+    try {
+        const response = await fetch('/dataSPL.json')
+        hhData.value = await response.json()
+    } catch (error) {
+        console.error('Ошибка загрузки:', error)
+    } finally {
+        loading.value = false
     }
-])
+}
 
-const columns: TableColumn<Table>[] = [
-    {
-        accessorKey: 'name',
-        header: 'Название',
-    },
-    {
-        accessorKey: 'm_share',
-        header: '% рынка',
-    },
-    {
-        accessorKey: 'passing',
-        header: 'Изменение',
-    },
-    {
-        accessorKey: 'vac',
-        header: 'Вакансии',
-    },
-    {
-        accessorKey: 'rez',
-        header: 'Резюме',
-    },
-    {
-        accessorKey: 'varRef',
-        header: 'Вак/Рез',
-    },
-    {
-        accessorKey: 'index',
-        header: 'Индекс',
-    },
-]
+onMounted(loadData)
+
+// Обработчик обновления языков
+const handleLangsUpdate = (newLangs) => {
+    langs.value = newLangs.map(lang => Number(getIdObj(lang)))
+}
+
 </script>
 
 <template>
@@ -83,7 +40,18 @@ const columns: TableColumn<Table>[] = [
 
     <Collapsible @update:selected-langs="handleLangsUpdate"/>
 
-    <ChartJLine modeChart="nearest" :urlData="langs" />
+    <ClientOnly>
+        <div v-if="loading">
+            Загрузка данных...
+            <UProgress animation="swing" size="lg" class="my-5"/>
+        </div>
+        <template v-else>
+            <ChartJLine
+                modeChart="nearest"
+                :urlData="langs"
+                :hhData="hhData"
+            />
+        </template>
+    </ClientOnly>
 
-    <Table/>
 </template>
