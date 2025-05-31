@@ -2,6 +2,7 @@
 import { ref, computed, watch, onMounted } from 'vue'
 import type { Ref } from 'vue'
 import type { ChartItem, HhData } from '@/type/IdataJson'
+import { getCurrColor } from '@/utils/getIdObj'
 
 const props = defineProps({
     urlData: Array as () => number[], // фильтр по языкам
@@ -73,7 +74,7 @@ const chartData = computed(() => {
             return item ? item[modeDbSelect.value as keyof ChartItem] as number : 0
         })
 
-        const color = getRandomColor()
+        const color = getCurrColor(lang.name)
         return {
             label: lang.name,
             data,
@@ -88,14 +89,6 @@ const chartData = computed(() => {
         datasets
     }
 })
-
-// Функция генерации цвета
-const getRandomColor = () => {
-    const r = Math.floor(Math.random() * 256)
-    const g = Math.floor(Math.random() * 256)
-    const b = Math.floor(Math.random() * 256)
-    return `rgb(${r}, ${g}, ${b})`
-}
 
 // Реакция на изменение параметров
 // watch([regionSelect, modeDbSelect], () => {

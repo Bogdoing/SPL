@@ -67,3 +67,30 @@ export function getLanguageById(id: string): string | undefined {
 
     return languagesData[id];
 }
+
+
+export function getCurrColor(lang:string): string {
+    const langsColor: Record<string, string> = {
+        "1c":       '#D9531E',
+        "ruby":     '#CC342D',
+        "kotlin":   '#A97BFF',
+        "swift":    '#F0553B',
+        "dart":     '#00BFFF',
+        "flutter":  '#47C5FB',
+        "rust":     '#DEA584',
+        "ts":       '#3178C6',
+        "php":      '#777BB4',
+        "python":   '#3776AB',
+        "go":       '#00ADD8',
+        "csharp":   '#68217A',
+        "java":     '#f89820',
+        "angular":  '#DD0031',
+        "react":    '#61DAFB',
+        "vue":      '#4FC08D',
+        "js":       '#F7DF1E',
+        "cpp":      '#00599C',
+        "sql":      '#CD514C',
+        "nodejs":   '#8CC084'
+    }
+    return langsColor[lang]
+}
