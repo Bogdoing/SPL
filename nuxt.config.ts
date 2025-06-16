@@ -23,7 +23,7 @@ export default defineNuxtConfig({
   modules: [['@nuxtjs/google-fonts',
     {
       families: {
-        'Montserrat+Alternates': [400, 500, 600, 700, 800, 900],
+        'Montserrat+Alternates': [900], // 400, 500, 600, 700, 800, 900
       },
       display: 'swap', 
       googleFonts: {

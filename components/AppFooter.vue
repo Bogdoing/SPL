@@ -13,7 +13,7 @@
                 <NuxtLink to="/" class="hover:underline me-4 md:me-6 text-(--link)">СЯП.ру </NuxtLink>
             </li>
             <li>
-                <a href="https://github.com/Bogdoing" class="hover:underline me-4 md:me-6 text-(--link)">GITHUB</a>
+                <a href="https://github.com/Bogdoing/SPL" class="hover:underline me-4 md:me-6 text-(--link)">GITHUB</a>
             </li>
         </ul>
         </div>

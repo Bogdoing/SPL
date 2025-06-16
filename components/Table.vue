@@ -42,21 +42,41 @@ const dataTable = () => {
 }
 const dTable = dataTable()
 
+// Получаем уникальные языки для выбранного региона
+const dataTablePre = () => {
+    if (!props.hhData) return []
+
+    return props.hhData!.hh.filter(d =>
+        d.d === pDate &&
+        d.reg_id === 1
+    )
+}
+const dTablePre = dataTable()
 
 let data = ref<Table[]>([])
 
-dTable.forEach(item => {
+for (let i = 0; i < dTable.length; i++) {
     data.value.push({
-        name:    getLanguageById(String(item.l_id)) || 'null',
-        m_share: 5,
-        passing: -1.5,
-        vac:     item.v,
-        rez:     item.r,
-        varRef:  item.vr,
-        index:   0
+        name:    getLanguageById(String(dTable[i].l_id)) || 'null',  // название языка
+        m_share: -999,                                             // % рынка
+        passing: ((dTable[i].v - dTablePre[i].v) / dTablePre[i].v) * 100, // изменения в сравнении с прошлым месяцем %
+        vac:     dTable[i].v,                                        // кол-во вакансий
+        rez:     dTable[i].r,                                        // кол-во резюме
+        varRef:  dTable[i].vr,                                       // отношение век/реф
+        index:   -999                                              // индех востребованности
     })
-})
-
+}
+// dTable.forEach(item => {
+//     data.value.push({
+//         name:    getLanguageById(String(item.l_id)) || 'null',  // название языка
+//         m_share: 5,                                             // % рынка
+//         passing: -1.5,                                          // изменения в сравнении с прошлым месяцем %
+//         vac:     item.v,                                        // кол-во вакансий
+//         rez:     item.r,                                        // кол-во резюме
+//         varRef:  item.vr,                                       // отношение век/реф
+//         index:   0                                              // индех востребованности
+//     })
+// })
 
 const columns: TableColumn<Table>[] = [
     {
@@ -91,8 +111,5 @@ const columns: TableColumn<Table>[] = [
 </script>
 
 <template>
-    <!-- dataTable - {{ dataTable() }} <br>
-    lastDates - {{ lastDates() }} <br>
-    preDates - {{ preDates() }} -->
     <UTable :data="data" :columns="columns" class="flex-1" />
 </template>
