@@ -90,13 +90,6 @@ const chartData = computed(() => {
     }
 })
 
-// Реакция на изменение параметров
-// watch([regionSelect, modeDbSelect], () => {
-//     if (props.hhData) {
-//         console.log('Данные обновлены')
-//     }
-// })
-
 // реактивная ссылка с дебаунсом
 const debouncedValueRegion = useDebounce(regionSelect, 5000)
 const debouncedValueMode = useDebounce(modeDbSelect, 5000)

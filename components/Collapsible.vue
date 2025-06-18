@@ -26,25 +26,25 @@ const items = ref<CheckboxGroupItem[]>([
     "nodejs"
 ])
 const value = ref<CheckboxGroupValue[]>([
-    "1c",
-    "ruby",
-    "kotlin",
-    "swift",
-    "dart",
-    "flutter",
-    "rust",
-    "ts",
+    // "1c",
+    // "ruby",
+    // "kotlin",
+    // "swift",
+    // "dart",
+    // "flutter",
+    // "rust",
+    // "ts",
     "php",
     "python",
     "go",
-    "csharp",
-    "java",
+    // "csharp",
+    // "java",
     "angular",
     "react",
     "vue",
     "js",
-    "cpp",
-    "sql",
+    // "cpp",
+    // "sql",
     "nodejs"
 ])
 
