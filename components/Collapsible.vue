@@ -49,7 +49,7 @@ const value = ref<CheckboxGroupValue[]>([
 ])
 
 // реактивная ссылка с дебаунсом
-const debouncedValue = useDebounce(value, 1000)
+const debouncedValue = useDebounce(value, 2000)
 
 watch(debouncedValue, (newValue) => {
     emit('update:selectedLangs', newValue)
