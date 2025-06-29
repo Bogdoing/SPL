@@ -2,14 +2,14 @@
 import { ref } from 'vue'
 
 useSeoMeta({
-    title: 'Статистика языков по вакансиям HH',
-    ogTitle: 'Статистика языков по вакансиям HH',
+    title: 'Статистика языков по вакансиям HH (старые запросы)',
+    ogTitle: 'Статистика языков по вакансиям HH (старые запросы)',
     description: 'description',
     ogDescription: 'ogDescription',
 })
 
 const langs = ref([])
-const { hhData, loading } = useGetJson('dataSPLTest')
+const { hhData, loading } = useGetJson('dataSPLOldQuery')
 
 // Обработчик обновления языков
 const handleLangsUpdate = (newLangs) => {
@@ -19,7 +19,7 @@ const handleLangsUpdate = (newLangs) => {
 </script>
 
 <template>
-    <h1 class="text-[40px] font-black leading-[44px]">Статистика языков по вакансиям HH</h1>
+    <h1 class="text-[40px] font-black leading-[44px]">Статистика языков по вакансиям HH  (старые запросы)</h1>
     <p class="mt-2 mb-10 text-[13px] text-gray-700 dark:text-gray-300">Май 29, 2025</p>
 
     <NuxtLink to="hhquery">Поисковые запросы</NuxtLink>

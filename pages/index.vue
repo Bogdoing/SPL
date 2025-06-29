@@ -16,6 +16,12 @@ const posts = ref(
             toLink: 'stats/hh'
         },
         {
+            title: 'Статистика вакансий и резюме из HHRU (старые запросы)',
+            date: 'Обновлено - Июнь 18, 2025',
+            description: 'Обновлены запросы для парсинга',
+            toLink: 'stats/hhold'
+        },
+        {
             title: 'Статистика из GITHUB',
             date: '- ',
             description: 'Будет добавлено в скором будующем.',
