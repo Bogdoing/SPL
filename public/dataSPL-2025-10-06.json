@@ -55,7 +55,7 @@
     },
     {
       "lang": "nodejs",
-      "query": "node.js+or+Javascript+backend+or+Javascript+Fullstack+or+JS+Fullstack+or+JS+backend+or+TS+backend+or+TypeScript+or+express.js+or+nest.js+or+koa.js+or+fastify.js"
+      "query": "node.js+or+Javascript+backend+or+Javascript+Fullstack+or+JS+Fullstack+or+JS+backend+or+TS+backend+or+TypeScript+backend+or+express.js+or+nest.js+or+koa.js+or+fastify.js"
     },
     {
       "lang": "js",
