@@ -9,7 +9,7 @@ useSeoMeta({
 })
 
 const langs = ref([])
-const { hhData, loading } = useGetJson('dataSPL-2025-10-03')
+const { hhData, loading } = useGetJson('dataSPL-2025-10-06')
 
 // Обработчик обновления языков
 const handleLangsUpdate = (newLangs) => {
@@ -20,7 +20,7 @@ const handleLangsUpdate = (newLangs) => {
 
 <template>
     <h1 class="text-[40px] font-black leading-[44px]">Статистика языков по вакансиям HH</h1>
-    <p class="mt-2 mb-10 text-[13px] text-gray-700 dark:text-gray-300">Май 29, 2025</p>
+    <p class="mt-2 mb-10 text-[13px] text-gray-700 dark:text-gray-300">Октябрь 06, 2025</p>
 
     <NuxtLink to="hhquery">Поисковые запросы</NuxtLink>
 
