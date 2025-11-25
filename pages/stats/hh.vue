@@ -9,7 +9,7 @@ useSeoMeta({
 })
 
 const langs = ref([])
-const { hhData, loading } = useGetJson('dataSPL-2025-10-06')
+const { hhData, loading } = useGetJson('dataSPL-2025-11-25')
 
 // Обработчик обновления языков
 const handleLangsUpdate = (newLangs) => {
