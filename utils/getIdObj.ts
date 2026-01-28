@@ -26,7 +26,8 @@ export function getIdObj(languageName: string): string | null { // languagesData
         "19": "js",
         "21": "cpp",
         "27": "sql",
-        "28": "nodejs"
+        "28": "nodejs",
+        "29": "devops"        
     }
 
     // Нормализуем название для поиска (нижний регистр, удаляем спецсимволы)
@@ -62,7 +63,8 @@ export function getLanguageById(id: string): string | undefined {
         "19": "js",
         "21": "cpp",
         "27": "sql",
-        "28": "nodejs"
+        "28": "nodejs",
+        "29": "devops"
     };
 
     return languagesData[id];
@@ -90,7 +92,8 @@ export function getCurrColor(lang:string): string {
         "js":       '#F7DF1E',
         "cpp":      '#00599C',
         "sql":      '#CD514C',
-        "nodejs":   '#8CC084'
+        "nodejs":   '#8CC084',
+        "devops":   '#38e0dd'
     }
     return langsColor[lang]
 }

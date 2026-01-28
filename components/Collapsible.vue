@@ -23,7 +23,8 @@ const items = ref<CheckboxGroupItem[]>([
 	"js",
 	"cpp",
 	"sql",
-	"nodejs"
+	"nodejs",
+	"devops"
 ])
 const value = ref<CheckboxGroupValue[]>([
 	"php",

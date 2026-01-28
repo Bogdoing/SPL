@@ -71,6 +71,10 @@ export function getDescriptionLang(): { lang: string; query: string; }[] {
         {
             "lang": "vue",
             "query": "vue+or+nuxt.js"
+        },
+        {
+            "lang": "devops",
+            "query": "devops"
         }
     ]
 
