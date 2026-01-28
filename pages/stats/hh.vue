@@ -20,7 +20,7 @@ const handleLangsUpdate = (newLangs) => {
 
 <template>
     <h1 class="text-[40px] font-black leading-[44px]">Статистика языков по вакансиям HH</h1>
-    <p class="mt-2 mb-10 text-[13px] text-gray-700 dark:text-gray-300">Октябрь 06, 2025</p>
+    <p class="mt-2 mb-10 text-[13px] text-gray-700 dark:text-gray-300">Январь 28, 2026</p>
 
     <NuxtLink to="hhquery">Поисковые запросы</NuxtLink>
 
